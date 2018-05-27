@@ -1,1 +1,1 @@
-worker: pytohn bot.py
+bot: pytohn bot.py
