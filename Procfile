@@ -1,1 +1,1 @@
-bot: pytohn bot.py
+bot: python bot.py
