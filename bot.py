@@ -17,7 +17,7 @@ def extraer_argumento(i,arg):
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
 	nombre = extraer_argumento(1,message.text)
-	bot.reply_to(message, nombre +  " Howdy, how are you doing?")
+	bot.reply_to(message, "Bienvenido al bot no oficial de Goodreads!")
 
 @bot.message_handler(commands=['buscar'])
 def search(message):
@@ -26,7 +26,9 @@ def search(message):
 	for palabra in nombre_ingresado:
 		libro += palabra + '+'
 	titulo, score, imagen, review, link = goodreads(libro[:-1].encode('utf-8').strip())
-	bot.reply_to(message, titulo + '\n' + score + '\n' + 'Cover: ' + imagen + '\n' + 'Link: ' + link + '\n' + 'Description: ' + review[:300] + '...')
+	mostrar = titulo + '\n' + 'Rank: ' + score + '\n' + 'Cover: ' + imagen + '\n' + 'Link: ' + link + '\n' + 'Description: ' + review + '...'
+	bot.reply_to(message, mostrar)
+
 
 def goodreads(libro):
 	r = requests.get("https://www.goodreads.com/search.xml?key=LcLFw9NWm11xXMzNkBDHUQ&q={}".format(str(libro)))
@@ -42,7 +44,10 @@ def goodreads(libro):
 	return title, score, imagen, review, link
 
 def get_review_and_link(libro_id):
-	r = requests.get("https://www.goodreads.com/book/show/{}.xml?key=LcLFw9NWm11xXMzNkBDHUQ".format(libro_id))
+	try:
+		r = requests.get("https://www.goodreads.com/book/show/{}.xml?key=LcLFw9NWm11xXMzNkBDHUQ".format(libro_id))
+	except:
+		print(ola)
 	book = xmltodict.parse(r.content)['GoodreadsResponse']['book']
 	descripcion = book['description']
 	url = book['url']
@@ -52,7 +57,11 @@ def get_review_and_link(libro_id):
 def filtrar_descripcion(descripcion):
 	corte = '<br />'
 	for i in range(2):
-		comienzo = descripcion.index(corte) + len(corte)
+		try:
+			pos = descripcion.index(corte)
+			comienzo = pos + len(corte)
+		except:
+			comienzo = 0
 		descripcion = descripcion[comienzo:]
 	return descripcion
 
