@@ -52,8 +52,10 @@ def get_review_and_link(libro_id):
 def filtrar_descripcion(descripcion):
 	corte = '<br />'
 	for i in range(2):
-		comienzo = descripcion.index(corte) + len(corte)
-		descripcion = descripcion[comienzo:]
+		pos = descripcion.index(corte)
+		if pos >=0:
+			comienzo = descripcion.index(corte) + len(corte)
+			descripcion = descripcion[comienzo:]
 	return descripcion
 
 bot.polling()
