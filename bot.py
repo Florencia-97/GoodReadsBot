@@ -35,8 +35,13 @@ def search(message):
 @bot.inline_handler(lambda query: query.query > 1)
 def default_query(inline_query):
 	list = []
+	titulo, score, imagen, review, link = goodreads('Emma')
+	mostrar = titulo + '\n' + 'Rank: ' + score + '\n' + 'Cover: ' + imagen + '\n' + 'Link: ' + link + '\n' + 'Description: ' + review + '...'
 	try:
-		list.append(types.InlineQueryResultArticle('1', 'default', types.InputTextMessageContent('default')))
+		list.append(types.InlineQueryResultPhoto('1',
+                                         'https://s.gr-assets.com/assets/nophoto/book/111x148-bcc042a9c91a29c1d680899eff700a03.png',
+                                         'https://s.gr-assets.com/assets/nophoto/book/111x148-bcc042a9c91a29c1d680899eff700a03.png',
+										 input_message_content=types.InputTextMessageContent(mostrar)))
 		list.append(types.InlineQueryResultArticle('2', 'lal', types.InputTextMessageContent('Copyright (c) 2017 Copyright Holder All Rights Reserved.')))
 		bot.answer_inline_query(inline_query.id, list)
 	except Exception as e:
@@ -66,7 +71,7 @@ def goodreads(libro):
 	try:
 		book = xmltodict.parse(r.content)['GoodreadsResponse']['search']['results']['work'][0]
 	except:
-		print("hola")
+		print("Errpr")
 	title = book['best_book']['title']
 	score = book['average_rating']
 	imagen = book['best_book']['image_url']
@@ -78,7 +83,7 @@ def get_review_and_link(libro_id):
 	try:
 		r = requests.get("https://www.goodreads.com/book/show/{}.xml?key=LcLFw9NWm11xXMzNkBDHUQ".format(libro_id))
 	except:
-		print(ola)
+		print('error')
 	book = xmltodict.parse(r.content)['GoodreadsResponse']['book']
 	descripcion = book['description']
 	url = book['url']
