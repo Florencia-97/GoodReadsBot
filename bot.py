@@ -32,7 +32,7 @@ def search(message):
 
 
 
-@bot.inline_handler(lambda query: query.query > 1)
+@bot.inline_handler(lambda query: len(query.query) > 1)
 def default_query(inline_query):
 	list = []
 	titulo, score, imagen, review, link = goodreads('Emma')
@@ -42,7 +42,7 @@ def default_query(inline_query):
                                          'https://s.gr-assets.com/assets/nophoto/book/111x148-bcc042a9c91a29c1d680899eff700a03.png',
                                          'https://s.gr-assets.com/assets/nophoto/book/111x148-bcc042a9c91a29c1d680899eff700a03.png',
 										 input_message_content=types.InputTextMessageContent(mostrar)))
-		list.append(types.InlineQueryResultArticle('2', 'lal', types.InputTextMessageContent('Copyright (c) 2017 Copyright Holder All Rights Reserved.')))
+		list.append(types.InlineQueryResultArticle('2', inline_query.query , types.InputTextMessageContent('Copyright (c) 2017 Copyright Holder All Rights Reserved.')))
 		bot.answer_inline_query(inline_query.id, list)
 	except Exception as e:
 		print(e)
