@@ -2,6 +2,7 @@
 import telebot
 import requests
 import xmltodict
+from telebot import types
 
 #goodreads claves
 #key: LcLFw9NWm11xXMzNkBDHUQ
@@ -28,6 +29,36 @@ def search(message):
 	titulo, score, imagen, review, link = goodreads(libro[:-1].encode('utf-8').strip())
 	mostrar = titulo + '\n' + 'Rank: ' + score + '\n' + 'Cover: ' + imagen + '\n' + 'Link: ' + link + '\n' + 'Description: ' + review + '...'
 	bot.reply_to(message, mostrar)
+
+
+
+@bot.inline_handler(lambda query: query.query > 1)
+def default_query(inline_query):
+	list = []
+	try:
+		list.append(types.InlineQueryResultArticle('1', 'default', types.InputTextMessageContent('default')))
+		list.append(types.InlineQueryResultArticle('2', 'lal', types.InputTextMessageContent('Copyright (c) 2017 Copyright Holder All Rights Reserved.')))
+		bot.answer_inline_query(inline_query.id, list)
+	except Exception as e:
+		print(e)
+
+def get_iq_articles(exchanges):
+   result = []
+   for exc in exchanges:
+       result.append(
+           telebot.types.InlineQueryResultArticle(
+               id=exc['ccy'],
+               title=exc['ccy'],
+               input_message_content=telebot.types.InputTextMessageContent(
+                   serialize_ex(exc),
+                   parse_mode='HTML'
+               ),
+               reply_markup=get_update_keyboard(exc),
+               description='Convert ' + exc['base_ccy'] + ' -> ' + exc['ccy'],
+               thumb_height=1
+           )
+       )
+   return result
 
 
 def goodreads(libro):
