@@ -23,8 +23,8 @@ def send_welcome(message):
 @bot.inline_handler(lambda query: len(query.query) > 1)
 def default_query(inline_query):
 	list = []
-	titulo, score, imagen, review, link = goodreads(inline_query.query)
-	mostrar = titulo + '\n' + 'Rank:  ' + score + '\n' + 'Cover: ' + imagen + '\n' + 'Link: ' + link + '\n' + 'Description: ' + review + '...'
+	titulo, score, imagen, review, link, autor = goodreads(inline_query.query)
+	mostrar = titulo + '\n' + 'Author: ' + autor + '\n' + 'Rank:  ' + score + '\n' + 'Cover: ' + imagen + '\n' + 'Link: ' + link + '\n' + 'Description: ' + review + '...'
 	try:
 		list.append(types.InlineQueryResultArticle('1', titulo , types.InputTextMessageContent(mostrar)))
 		bot.answer_inline_query(inline_query.id, list)
@@ -43,8 +43,9 @@ def goodreads(libro):
 	score = book['average_rating']
 	imagen = book['best_book']['image_url']
 	id = book['best_book']['id']['#text']
+	autor = book['best_book']['author']['name']
 	review, link =  get_review_and_link(id)
-	return title,score,imagen,review,link
+	return title,score,imagen,review,link, autor
 
 
 def get_review_and_link(libro_id):
