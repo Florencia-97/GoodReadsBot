@@ -69,6 +69,8 @@ def filtrar_descripcion(descripcion):
 		except:
 			comienzo = 0
 		descripcion = descripcion[comienzo:]
+	descripcion = descripcion.replace("<i>","")
+	descripcion = descripcion.replace("</i>","")
+	descripcion.replace("<br /><br />", "\n")
 	return descripcion
-
 bot.polling()
