@@ -8,8 +8,8 @@ from collections import OrderedDict
 
 
 import os
-# BOT_TOKEN = os.environ["BOT_GOOD_READS_TOKEN"]
-# KEY = os.environ["KEY_GOOD_READS_BOT"]
+BOT_TOKEN = os.environ["BOT_GOOD_READS_TOKEN"]
+KEY = os.environ["KEY_GOOD_READS_BOT"]
 
 LARGO_DESCRIPCIONES_MAX = 150
 MAX_LIBROS_LISTADOS = 3
