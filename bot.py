@@ -6,11 +6,10 @@ from telebot import types
 import re
 from collections import OrderedDict 
 
-#secret: YMav7dE2erXytdnuZx0eXyNbSGFwLjEVG2yjir7Ro
 
 import os
-BOT_TOKEN = os.environ["BOT_GOOD_READS_TOKEN"]
-KEY = os.environ["KEY_GOOD_READS_BOT"]
+# BOT_TOKEN = os.environ["BOT_GOOD_READS_TOKEN"]
+# KEY = os.environ["KEY_GOOD_READS_BOT"]
 
 LARGO_DESCRIPCIONES_MAX = 150
 MAX_LIBROS_LISTADOS = 3
@@ -63,9 +62,12 @@ def goodreads(libro):
 
 	dic_books = {}
 	for book in books:
-		print("Libro")
+		print("Libro: ")
 		print(book)
-		title = book['best_book']['title']
+		try:
+			title = book['best_book']['title']
+		except:
+			continue
 		info = {}
 		info['score'] = get_score(book['average_rating'])
 		info['imagen'] = book['best_book']['image_url']
