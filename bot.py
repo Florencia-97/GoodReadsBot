@@ -31,8 +31,6 @@ def default_query(inline_query):
 	results_list=[]	
 	i = 1
 	for book,info in books_dic.items():
-		print(f"Libro: {book}")
-		print(f"Info: {info}")
 		mostrar = book + '\n' 
 		mostrar	+= 'Author: ' + info["autor"] + '\n'
 		cant_estrellas = int(info["score"][0])
@@ -62,8 +60,6 @@ def goodreads(libro):
 
 	dic_books = {}
 	for book in books:
-		print("Libro: ")
-		print(book)
 		try:
 			title = book['best_book']['title']
 		except:
@@ -116,7 +112,6 @@ def filtrar_descripcion( descripcion ):
 	return descripcion + '...'
 
 def get_score(score):
-	print(f"Score: {score}")
 	if score is OrderedDict:
 		return score['#text']
 	return score
